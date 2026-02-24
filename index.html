@@ -25,28 +25,35 @@
             --leaf-light: #4a7349;
             --amber: #c8793a;
             --amber-light: #e8a060;
-            --mist: rgba(255,255,255,0.06);
             --shadow: 0 2px 16px rgba(26,18,8,0.12);
             --shadow-lg: 0 8px 40px rgba(26,18,8,0.18);
             --radius: 10px;
             --radius-lg: 16px;
         }
 
+        html { -webkit-text-size-adjust: 100%; }
+
         body {
             font-family: 'DM Sans', sans-serif;
             background: var(--ink);
             min-height: 100vh;
+            min-height: 100dvh;
             color: var(--ink);
             background-image: 
                 radial-gradient(ellipse at 20% 50%, rgba(107,82,64,0.3) 0%, transparent 60%),
                 radial-gradient(ellipse at 80% 20%, rgba(45,74,44,0.2) 0%, transparent 50%);
+            /* prevent zoom on input focus on iOS */
+            font-size: 16px;
         }
 
         /* ─── LAYOUT ─── */
         .app {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 24px 16px;
+            padding: 12px 12px 80px; /* bottom padding for FAB */
+        }
+        @media (min-width: 640px) {
+            .app { padding: 24px 16px 24px; }
         }
 
         /* ─── HEADER ─── */
@@ -54,61 +61,46 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 28px;
-            gap: 16px;
+            margin-bottom: 14px;
+            gap: 10px;
         }
-        .header-brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .header-icon {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, var(--leaf), var(--leaf-light));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(45,74,44,0.4);
-        }
+        @media (min-width: 640px) { .header { margin-bottom: 24px; } }
+
+        .header-brand { display: flex; align-items: center; gap: 10px; }
+
         .header-text h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(1.4rem, 3vw, 2rem);
+            font-size: clamp(1.2rem, 5vw, 2rem);
             color: var(--parchment);
             font-weight: 700;
             line-height: 1.1;
         }
         .header-text p {
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             color: var(--tan);
             font-weight: 300;
-            margin-top: 2px;
-        }
-        .header-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
+            margin-top: 1px;
         }
         .btn-export {
             display: flex;
             align-items: center;
-            gap: 7px;
-            padding: 9px 18px;
+            gap: 6px;
+            padding: 8px 14px;
             background: var(--amber);
             color: white;
             border: none;
             border-radius: var(--radius);
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
         }
-        .btn-export:hover { background: var(--amber-light); transform: translateY(-1px); }
+        .btn-export svg { display: none; }
+        @media (min-width: 480px) { .btn-export svg { display: block; } }
+        .btn-export:active { background: var(--amber-light); }
 
         /* ─── MAIN CARD ─── */
         .card {
@@ -124,23 +116,27 @@
             background: var(--bark);
             overflow-x: auto;
             scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
         }
         .tabs::-webkit-scrollbar { display: none; }
         .tab {
-            padding: 14px 20px;
+            flex: 1;
+            min-width: max-content;
+            padding: 12px 14px;
             border: none;
             background: transparent;
             color: var(--tan);
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
             white-space: nowrap;
-            position: relative;
             border-bottom: 2px solid transparent;
+            -webkit-tap-highlight-color: transparent;
         }
-        .tab:hover { color: var(--parchment); }
+        @media (min-width: 480px) { .tab { padding: 13px 18px; font-size: 0.88rem; } }
+        .tab:active { color: var(--parchment); }
         .tab.active {
             color: var(--parchment);
             border-bottom-color: var(--amber);
@@ -150,31 +146,31 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-width: 18px;
-            height: 18px;
-            padding: 0 5px;
+            min-width: 16px;
+            height: 16px;
+            padding: 0 4px;
             background: var(--amber);
             color: white;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 700;
-            margin-left: 6px;
+            margin-left: 5px;
         }
 
         /* ─── DATE NAV ─── */
         .date-bar {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 14px 24px;
+            padding: 10px 14px;
             background: white;
             border-bottom: 1px solid #ede6d6;
-            gap: 12px;
+            gap: 8px;
         }
-        .date-bar-hidden { display: none; }
+        @media (min-width: 480px) { .date-bar { padding: 12px 20px; gap: 12px; } }
         .date-nav-btn {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
             border: 1.5px solid #ddd5c0;
             background: white;
             border-radius: 8px;
@@ -183,52 +179,58 @@
             align-items: center;
             justify-content: center;
             color: var(--wood);
-            font-size: 1rem;
+            font-size: 1.1rem;
             transition: all 0.15s;
-            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
         }
-        .date-nav-btn:hover { background: var(--parchment); border-color: var(--tan); }
+        .date-nav-btn:active { background: var(--parchment); }
         .current-date-label {
             font-family: 'Playfair Display', serif;
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: var(--bark);
             text-align: center;
             flex: 1;
+            line-height: 1.3;
         }
+        @media (min-width: 480px) { .current-date-label { font-size: 1rem; } }
         .today-btn {
-            padding: 6px 14px;
+            padding: 7px 12px;
             border: 1.5px solid var(--tan);
             background: transparent;
             color: var(--wood);
             border-radius: 6px;
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.15s;
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
         }
-        .today-btn:hover { background: var(--parchment); }
+        .today-btn:active { background: var(--parchment); }
 
         /* ─── CONTENT AREA ─── */
-        .content-area {
-            padding: 24px;
-        }
+        .content-area { padding: 14px; }
+        @media (min-width: 480px) { .content-area { padding: 20px; } }
+        @media (min-width: 768px) { .content-area { padding: 24px; } }
 
         /* ─── ADD TASK FORM ─── */
         .add-task-panel {
             background: white;
             border: 1.5px solid #ede6d6;
             border-radius: var(--radius-lg);
-            padding: 20px;
-            margin-bottom: 24px;
+            padding: 14px;
+            margin-bottom: 16px;
         }
+        @media (min-width: 480px) { .add-task-panel { padding: 18px; margin-bottom: 20px; } }
+        @media (min-width: 768px) { .add-task-panel { padding: 20px; margin-bottom: 24px; } }
+
         .panel-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: var(--bark);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -237,61 +239,70 @@
             content: '';
             display: block;
             width: 3px;
-            height: 16px;
+            height: 14px;
             background: var(--amber);
             border-radius: 2px;
+            flex-shrink: 0;
         }
         .form-row {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 8px;
+            margin-bottom: 8px;
         }
-        @media (min-width: 640px) {
+        @media (min-width: 540px) {
+            .form-row { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+            .form-row.title-row { grid-template-columns: 1fr; }
+        }
+        @media (min-width: 768px) {
             .form-row { grid-template-columns: 1fr auto auto; }
+            .form-row.title-row { grid-template-columns: 1fr; }
             .form-row.notes-row { grid-template-columns: 1fr; }
         }
         .form-input {
-            padding: 10px 14px;
+            padding: 11px 14px;
             border: 1.5px solid #e0d8c8;
             border-radius: var(--radius);
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.9rem;
+            font-size: 1rem; /* 16px prevents iOS zoom */
             color: var(--ink);
             background: var(--cream);
             transition: border-color 0.2s, box-shadow 0.2s;
             width: 100%;
+            -webkit-appearance: none;
         }
         .form-input:focus { outline: none; border-color: var(--tan); box-shadow: 0 0 0 3px rgba(168,137,106,0.12); }
         .form-input::placeholder { color: #bbb0a0; }
         .form-select {
-            padding: 10px 14px;
+            padding: 11px 36px 11px 14px;
             border: 1.5px solid #e0d8c8;
             border-radius: var(--radius);
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--ink);
             background: var(--cream);
             cursor: pointer;
             appearance: none;
+            -webkit-appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a8896a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 12px center;
-            padding-right: 34px;
+            width: 100%;
         }
         .form-select:focus { outline: none; border-color: var(--tan); }
         .form-textarea {
-            padding: 10px 14px;
+            padding: 11px 14px;
             border: 1.5px solid #e0d8c8;
             border-radius: var(--radius);
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--ink);
             background: var(--cream);
             resize: vertical;
             min-height: 72px;
             width: 100%;
             transition: border-color 0.2s;
+            -webkit-appearance: none;
         }
         .form-textarea:focus { outline: none; border-color: var(--tan); box-shadow: 0 0 0 3px rgba(168,137,106,0.12); }
         .btn-add {
@@ -299,75 +310,79 @@
             align-items: center;
             justify-content: center;
             gap: 7px;
-            padding: 10px 24px;
+            padding: 12px 24px;
             background: linear-gradient(135deg, var(--leaf), var(--leaf-light));
             color: white;
             border: none;
             border-radius: var(--radius);
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             margin-top: 4px;
+            width: 100%;
+            -webkit-tap-highlight-color: transparent;
         }
-        .btn-add:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(45,74,44,0.3); }
+        @media (min-width: 480px) { .btn-add { width: auto; } }
+        .btn-add:active { opacity: 0.85; }
 
-        /* ─── TASKS LIST (day/week/common) ─── */
-        .tasks-list { display: flex; flex-direction: column; gap: 10px; }
+        /* ─── TASKS LIST ─── */
+        .tasks-list { display: flex; flex-direction: column; gap: 8px; }
+        @media (min-width: 480px) { .tasks-list { gap: 10px; } }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
         .task-card {
             background: white;
             border: 1.5px solid #ede6d6;
             border-radius: var(--radius-lg);
-            padding: 16px 18px;
+            padding: 13px 14px;
             transition: all 0.2s;
             animation: slideIn 0.2s ease;
         }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        .task-card:hover { box-shadow: var(--shadow); border-color: #d8ccb8; }
+        @media (min-width: 480px) { .task-card { padding: 15px 18px; } }
+        .task-card:hover { box-shadow: var(--shadow); }
         .task-card.completed { opacity: 0.55; background: #f9f7f2; }
 
         .task-card-header {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 8px;
         }
         .task-checkbox {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
+            min-width: 22px;
             border: 2px solid #ccc3b0;
             border-radius: 6px;
             cursor: pointer;
-            flex-shrink: 0;
             margin-top: 1px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
         }
-        .task-checkbox:hover { border-color: var(--leaf); }
-        .task-checkbox.checked {
-            background: var(--leaf);
-            border-color: var(--leaf);
-            color: white;
-            font-size: 12px;
-        }
+        .task-checkbox:active { border-color: var(--leaf); }
+        .task-checkbox.checked { background: var(--leaf); border-color: var(--leaf); color: white; font-size: 12px; }
         .task-title-text {
             flex: 1;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             color: var(--bark);
             line-height: 1.4;
             word-break: break-word;
         }
+        @media (min-width: 480px) { .task-title-text { font-size: 0.95rem; } }
         .task-card.completed .task-title-text { text-decoration: line-through; color: #a09080; }
-        .task-card-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .task-card-actions { display: flex; gap: 5px; flex-shrink: 0; }
 
         .btn-icon {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
             border: 1.5px solid #e0d8c8;
             background: white;
             border-radius: 7px;
@@ -378,21 +393,22 @@
             font-size: 14px;
             transition: all 0.15s;
             color: var(--wood);
+            -webkit-tap-highlight-color: transparent;
         }
-        .btn-icon:hover { background: var(--parchment); border-color: var(--tan); }
-        .btn-icon.delete:hover { background: #fef2f2; border-color: #fca5a5; color: #dc2626; }
+        .btn-icon:active { background: var(--parchment); }
+        .btn-icon.delete:active { background: #fef2f2; color: #dc2626; }
 
         .task-meta {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
             padding-left: 32px;
         }
         .badge {
-            padding: 2px 9px;
+            padding: 2px 8px;
             border-radius: 20px;
-            font-size: 0.74rem;
+            font-size: 0.72rem;
             font-weight: 600;
             letter-spacing: 0.3px;
         }
@@ -400,12 +416,11 @@
         .badge-weekly { background: #f3e8ff; color: #7c3aed; }
         .badge-monthly { background: #fff7ed; color: #c2410c; }
         .badge-yearly { background: #dcfce7; color: #166534; }
-        .task-date-meta { font-size: 0.78rem; color: var(--tan); }
-        .task-notes-text { 
-            font-size: 0.84rem; 
-            color: var(--wood); 
-            margin-top: 8px; 
-            padding-left: 32px; 
+        .task-date-meta { font-size: 0.75rem; color: var(--tan); }
+        .task-notes-text {
+            font-size: 0.83rem;
+            color: var(--wood);
+            margin-top: 8px;
             line-height: 1.6;
             border-left: 2px solid #ede6d6;
             padding-left: 10px;
@@ -413,188 +428,200 @@
         }
 
         /* ─── EMPTY STATE ─── */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-        }
-        .empty-icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.4; }
-        .empty-state h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--wood); margin-bottom: 6px; }
-        .empty-state p { font-size: 0.88rem; color: var(--tan); }
+        .empty-state { text-align: center; padding: 48px 20px; }
+        .empty-icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.4; }
+        .empty-state h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--wood); margin-bottom: 6px; }
+        .empty-state p { font-size: 0.85rem; color: var(--tan); }
 
         /* ─── WEEK VIEW ─── */
-        .week-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-        }
-        @media (max-width: 768px) {
-            .week-grid { grid-template-columns: 1fr; }
+        /* Mobile: vertical list with day label inline */
+        .week-grid { display: flex; flex-direction: column; gap: 8px; }
+        @media (min-width: 700px) {
+            .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
         }
         .week-day-col {
             background: white;
             border: 1.5px solid #ede6d6;
             border-radius: var(--radius-lg);
-            padding: 12px 10px;
-            min-height: 200px;
+            padding: 10px 12px;
         }
+        @media (min-width: 700px) { .week-day-col { min-height: 160px; padding: 10px; } }
         .week-day-col.is-today { border-color: var(--leaf); }
+        .week-day-col.empty-day { display: none; }
+        @media (min-width: 700px) { .week-day-col.empty-day { display: block; } }
         .week-day-header {
-            text-align: center;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
             border-bottom: 1px solid #ede6d6;
+        }
+        @media (min-width: 700px) {
+            .week-day-header { flex-direction: column; align-items: center; gap: 2px; text-align: center; }
         }
         .week-day-name { font-size: 0.7rem; font-weight: 600; color: var(--tan); text-transform: uppercase; letter-spacing: 0.5px; }
         .week-day-num {
             font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--bark);
-            margin-top: 2px;
         }
         .week-day-col.is-today .week-day-num {
             color: white;
             background: var(--leaf);
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.95rem;
-            margin: 2px auto 0;
+            font-size: 0.85rem;
+        }
+        @media (min-width: 700px) {
+            .week-day-col.is-today .week-day-num { margin: 0 auto; }
         }
         .week-task-item {
             padding: 6px 8px;
             border-radius: 6px;
             margin-bottom: 5px;
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             font-weight: 500;
             border-left: 3px solid;
-            cursor: default;
         }
         .week-task-item.daily { background: #eff6ff; border-color: #3b82f6; color: #1d4ed8; }
         .week-task-item.weekly { background: #faf5ff; border-color: #8b5cf6; color: #6d28d9; }
         .week-task-item.monthly { background: #fff7ed; border-color: #f97316; color: #c2410c; }
         .week-task-item.yearly { background: #f0fdf4; border-color: #22c55e; color: #15803d; }
-        .week-task-item.done { opacity: 0.5; text-decoration: line-through; }
-        .week-task-actions { display: flex; gap: 3px; margin-top: 4px; }
+        .week-task-actions { display: flex; gap: 4px; margin-top: 5px; }
         .week-task-btn {
-            font-size: 10px;
-            padding: 2px 5px;
+            font-size: 11px;
+            padding: 4px 8px;
             border: 1px solid #ddd;
             background: white;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
             color: var(--wood);
+            -webkit-tap-highlight-color: transparent;
         }
-        .week-task-btn:hover { background: var(--parchment); }
+        .week-task-btn:active { background: var(--parchment); }
 
         /* ─── MONTH VIEW ─── */
-        .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+        @media (min-width: 480px) { .month-grid { gap: 4px; } }
         .month-dow-header {
             text-align: center;
-            padding: 8px 4px;
-            font-size: 0.72rem;
+            padding: 6px 2px;
+            font-size: 0.65rem;
             font-weight: 600;
             color: var(--tan);
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
         }
+        @media (min-width: 480px) { .month-dow-header { font-size: 0.72rem; padding: 8px 4px; } }
         .month-day {
             background: white;
             border: 1.5px solid #ede6d6;
-            border-radius: 8px;
-            padding: 8px 6px;
-            min-height: 80px;
+            border-radius: 6px;
+            padding: 5px 4px;
+            min-height: 52px;
             transition: all 0.15s;
+            cursor: default;
         }
-        .month-day:hover { border-color: var(--tan); }
+        @media (min-width: 480px) { .month-day { padding: 7px 5px; min-height: 70px; border-radius: 8px; } }
+        @media (min-width: 768px) { .month-day { padding: 8px 6px; min-height: 85px; } }
         .month-day.other-month { opacity: 0.3; }
         .month-day.is-today { border-color: var(--leaf); background: #f0fdf4; }
-        .month-day-num { font-size: 0.82rem; font-weight: 600; color: var(--bark); margin-bottom: 4px; }
+        .month-day-num { font-size: 0.75rem; font-weight: 600; color: var(--bark); margin-bottom: 3px; }
+        @media (min-width: 480px) { .month-day-num { font-size: 0.82rem; } }
         .month-day.is-today .month-day-num { color: var(--leaf); }
         .month-task-dot {
             display: flex;
             align-items: center;
-            gap: 4px;
-            font-size: 0.7rem;
-            color: var(--wood);
+            gap: 3px;
+            font-size: 0;  /* hide text on tiny screens */
             margin-top: 2px;
         }
-        .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); flex-shrink: 0; }
+        @media (min-width: 480px) { .month-task-dot { font-size: 0.68rem; color: var(--wood); } }
+        .month-task-dot span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 60px; }
+        .dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+        @media (min-width: 480px) { .dot { width: 6px; height: 6px; } }
 
         /* ─── YEAR VIEW ─── */
-        .year-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        @media (min-width: 640px) { .year-grid { grid-template-columns: repeat(4, 1fr); } }
+        .year-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        @media (min-width: 480px) { .year-grid { gap: 10px; } }
+        @media (min-width: 640px) { .year-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 900px) { .year-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; } }
         .year-month-card {
             background: white;
             border: 1.5px solid #ede6d6;
             border-radius: var(--radius-lg);
-            padding: 16px;
+            padding: 14px 10px;
             text-align: center;
             transition: all 0.2s;
         }
-        .year-month-card:hover { box-shadow: var(--shadow); }
         .year-month-card.has-tasks { border-color: var(--tan); }
-        .year-month-name { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--bark); margin-bottom: 8px; font-weight: 600; }
-        .year-month-count { font-size: 2rem; font-weight: 700; color: var(--amber); font-family: 'Playfair Display', serif; line-height: 1; }
-        .year-month-label { font-size: 0.73rem; color: var(--tan); margin-top: 4px; }
+        .year-month-name { font-family: 'Playfair Display', serif; font-size: 0.85rem; color: var(--bark); margin-bottom: 6px; font-weight: 600; }
+        .year-month-count { font-size: 1.8rem; font-weight: 700; color: var(--amber); font-family: 'Playfair Display', serif; line-height: 1; }
+        .year-month-label { font-size: 0.7rem; color: var(--tan); margin-top: 4px; }
 
-        /* ─── ALL TASKS VIEW ─── */
+        /* ─── ALL TASKS TOOLBAR ─── */
         .all-tasks-toolbar {
             display: flex;
-            gap: 10px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            align-items: center;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        @media (min-width: 540px) {
+            .all-tasks-toolbar { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 16px; }
         }
         .search-input {
-            flex: 1;
-            min-width: 180px;
-            padding: 9px 14px 9px 36px;
+            width: 100%;
+            padding: 10px 14px 10px 36px;
             border: 1.5px solid #e0d8c8;
             border-radius: var(--radius);
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.88rem;
+            font-size: 1rem;
             color: var(--ink);
             background: white url("data:image/svg+xml,%3Csvg width='14' height='14' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='6' cy='6' r='4.5' stroke='%23a8896a' stroke-width='1.5' fill='none'/%3E%3Cpath d='M10 10l2.5 2.5' stroke='%23a8896a' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 12px center;
-            transition: border-color 0.2s;
+            -webkit-appearance: none;
         }
+        @media (min-width: 540px) { .search-input { flex: 1; min-width: 160px; } }
         .search-input:focus { outline: none; border-color: var(--tan); }
         .filter-select {
-            padding: 9px 32px 9px 12px;
+            padding: 10px 32px 10px 12px;
             border: 1.5px solid #e0d8c8;
             border-radius: var(--radius);
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.85rem;
+            font-size: 1rem;
             color: var(--ink);
             background: white url("data:image/svg+xml,%3Csvg width='12' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a8896a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center;
             appearance: none;
+            -webkit-appearance: none;
             cursor: pointer;
+            flex: 1;
         }
-        .filter-select:focus { outline: none; border-color: var(--tan); }
         .all-tasks-stats {
             display: flex;
-            gap: 16px;
-            margin-bottom: 16px;
+            gap: 8px;
+            margin-bottom: 14px;
             flex-wrap: wrap;
         }
         .stat-pill {
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
+            gap: 5px;
+            padding: 5px 10px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 600;
             background: white;
             border: 1.5px solid #ede6d6;
             color: var(--wood);
         }
-        .stat-pill span { color: var(--amber); font-family: 'Playfair Display', serif; font-size: 1rem; }
+        .stat-pill span { color: var(--amber); font-family: 'Playfair Display', serif; font-size: 0.95rem; }
 
-        /* Full task card for all-tasks view */
+        /* ─── FULL TASK CARD (All / Archive) ─── */
         .task-card-full {
             background: white;
             border: 1.5px solid #ede6d6;
@@ -603,29 +630,31 @@
             transition: all 0.2s;
             animation: slideIn 0.15s ease;
         }
-        .task-card-full:hover { box-shadow: var(--shadow); }
         .task-card-full.completed { opacity: 0.6; }
         .task-card-full-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px 18px;
+            gap: 10px;
+            padding: 13px 14px;
             cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
+        @media (min-width: 480px) { .task-card-full-header { padding: 14px 18px; gap: 12px; } }
         .task-card-full.completed .task-title-text { text-decoration: line-through; color: #a09080; }
         .task-card-full-body {
-            padding: 0 18px 14px 62px;
+            padding: 0 14px 13px 14px;
             display: none;
         }
+        @media (min-width: 480px) { .task-card-full-body { padding: 0 18px 14px 56px; } }
         .task-card-full.expanded .task-card-full-body { display: block; }
         .expand-arrow {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--tan);
-            font-size: 11px;
+            font-size: 10px;
             transition: transform 0.2s;
             flex-shrink: 0;
         }
@@ -640,68 +669,100 @@
             margin-bottom: 10px;
             white-space: pre-wrap;
         }
-        .task-full-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .task-full-actions { display: flex; gap: 7px; flex-wrap: wrap; }
         .btn-sm {
-            padding: 7px 14px;
+            padding: 8px 14px;
             border-radius: 7px;
             border: 1.5px solid #e0d8c8;
             background: white;
             font-family: 'DM Sans', sans-serif;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.15s;
             color: var(--wood);
+            -webkit-tap-highlight-color: transparent;
         }
-        .btn-sm:hover { background: var(--parchment); }
+        .btn-sm:active { background: var(--parchment); }
         .btn-sm.primary { background: var(--leaf); color: white; border-color: var(--leaf); }
-        .btn-sm.primary:hover { background: var(--leaf-light); }
-        .btn-sm.danger:hover { background: #fef2f2; border-color: #fca5a5; color: #dc2626; }
+        .btn-sm.primary:active { background: var(--leaf-light); }
+        .btn-sm.danger:active { background: #fef2f2; color: #dc2626; }
         .btn-sm.amber { background: var(--amber); color: white; border-color: var(--amber); }
-        .btn-sm.amber:hover { background: var(--amber-light); }
+        .btn-sm.amber:active { background: var(--amber-light); }
 
-        /* Group headers */
+        /* ─── GROUP HEADERS ─── */
         .group-header {
             font-family: 'Playfair Display', serif;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
             color: var(--wood);
-            padding: 10px 0 6px;
+            padding: 8px 0 6px;
             border-bottom: 1px solid #ede6d6;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .group-header span { color: var(--tan); font-size: 0.78rem; font-family: 'DM Sans', sans-serif; font-weight: 400; }
+        .group-header span { color: var(--tan); font-size: 0.76rem; font-family: 'DM Sans', sans-serif; font-weight: 400; }
 
         /* ─── MODAL ─── */
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(26,18,8,0.7);
+            background: rgba(26,18,8,0.75);
             z-index: 1000;
-            align-items: center;
+            align-items: flex-end;  /* sheet from bottom on mobile */
             justify-content: center;
-            padding: 20px;
             backdrop-filter: blur(2px);
+        }
+        @media (min-width: 540px) {
+            .modal-overlay { align-items: center; padding: 20px; }
         }
         .modal-overlay.open { display: flex; }
         .modal-box {
             background: var(--cream);
-            border-radius: var(--radius-lg);
-            padding: 28px;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            padding: 24px 20px 32px;
             max-width: 480px;
             width: 100%;
-            box-shadow: 0 24px 80px rgba(0,0,0,0.3);
-            animation: popIn 0.2s ease;
+            box-shadow: 0 -8px 40px rgba(0,0,0,0.25);
+            animation: slideUp 0.25s ease;
+            max-height: 92dvh;
+            overflow-y: auto;
         }
+        @media (min-width: 540px) {
+            .modal-box {
+                border-radius: var(--radius-lg);
+                padding: 28px;
+                animation: popIn 0.2s ease;
+                max-height: none;
+            }
+        }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--bark); }
-        .modal-close { width: 30px; height: 30px; border: none; background: none; font-size: 1.3rem; color: var(--tan); cursor: pointer; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
-        .modal-close:hover { background: #ede6d6; color: var(--bark); }
+        /* Drag handle on mobile modal */
+        .modal-box::before {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 4px;
+            background: #ddd5c0;
+            border-radius: 2px;
+            margin: 0 auto 20px;
+        }
+        @media (min-width: 540px) { .modal-box::before { display: none; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+        .modal-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--bark); }
+        .modal-close {
+            width: 32px; height: 32px;
+            border: none; background: none;
+            font-size: 1.3rem; color: var(--tan);
+            cursor: pointer; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .modal-close:active { background: #ede6d6; }
         .modal-form { display: flex; flex-direction: column; gap: 12px; }
         .form-label { font-size: 0.8rem; font-weight: 600; color: var(--wood); margin-bottom: 4px; display: block; }
         .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
@@ -735,6 +796,7 @@
             <button class="tab" data-view="month">Month</button>
             <button class="tab" data-view="year">Year</button>
             <button class="tab" data-view="all">All Tasks <span class="tab-count" id="allCount">0</span></button>
+            <button class="tab" data-view="archive">Archive <span class="tab-count" id="archiveCount">0</span></button>
         </div>
 
         <!-- Date nav (hidden for 'all' view) -->
@@ -750,15 +812,17 @@
             <!-- Add Task Form -->
             <div class="add-task-panel" id="addTaskPanel">
                 <div class="panel-title">Add New Task</div>
-                <div class="form-row">
+                <div class="form-row title-row">
                     <input class="form-input" type="text" id="taskTitle" placeholder="Task title…">
+                </div>
+                <div class="form-row">
                     <select class="form-select" id="taskType">
                         <option value="daily">Daily</option>
                         <option value="weekly">Weekly</option>
                         <option value="monthly">Monthly</option>
                         <option value="yearly">Long-term</option>
                     </select>
-                    <input class="form-input" type="date" id="taskDate" style="width:auto;">
+                    <input class="form-input" type="date" id="taskDate">
                 </div>
                 <div class="form-row notes-row">
                     <textarea class="form-textarea" id="taskNotes" placeholder="Notes (optional)…"></textarea>
@@ -857,8 +921,8 @@ class TaskManager {
             document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
             this.view = e.target.dataset.view;
-            document.getElementById('dateBar').style.display = this.view === 'all' ? 'none' : '';
-            document.getElementById('addTaskPanel').style.display = this.view === 'all' ? 'none' : '';
+            document.getElementById('dateBar').style.display = (this.view === 'all' || this.view === 'archive') ? 'none' : '';
+            document.getElementById('addTaskPanel').style.display = (this.view === 'all' || this.view === 'archive') ? 'none' : '';
             this.render();
         }));
         document.getElementById('prevBtn').addEventListener('click', () => this.navigate(-1));
@@ -924,7 +988,21 @@ class TaskManager {
         this.save(); this.closeModal(); this.render();
     }
 
-    toggle(id) { const t=this.tasks.find(x=>x.id===id); if(t){t.completed=!t.completed; this.save(); this.render();} }
+    toggle(id) {
+        const t = this.tasks.find(x => x.id===id);
+        if(!t) return;
+        if(!t.completed) {
+            // Move to archive
+            t.completed = true;
+            t.completedAt = new Date().toISOString();
+        } else {
+            // Restore from archive
+            t.completed = false;
+            t.completedAt = null;
+        }
+        this.save();
+        this.render();
+    }
     delete(id) { if(confirm('Delete this task?')){ this.tasks=this.tasks.filter(x=>x.id!==id); this.save(); this.render(); } }
 
     // ── Render ──
@@ -937,11 +1015,15 @@ class TaskManager {
             case 'month': this.renderMonthCal(); break;
             case 'year': this.renderYear(); break;
             case 'all': this.renderAll(); break;
+            case 'archive': this.renderArchive(); break;
         }
     }
 
     updateTabCount() {
-        document.getElementById('allCount').textContent = this.tasks.length;
+        const active = this.tasks.filter(t=>!t.completed).length;
+        const archived = this.tasks.filter(t=>t.completed).length;
+        document.getElementById('allCount').textContent = active;
+        document.getElementById('archiveCount').textContent = archived;
     }
 
     updateDateLabel() {
@@ -956,11 +1038,12 @@ class TaskManager {
             case 'month': el.textContent = this.date.toLocaleDateString('en-US',{year:'numeric',month:'long'}); break;
             case 'year': el.textContent = this.date.getFullYear(); break;
             case 'all': el.textContent = 'All Tasks'; break;
+            case 'archive': el.textContent = 'Archive'; break;
         }
     }
 
     renderDay() {
-        const tasks = this.tasksForDate(this.date);
+        const tasks = this.tasksForDate(this.date).filter(t=>!t.completed);
         const c = document.getElementById('tasksContainer');
         if(!tasks.length) { c.innerHTML = this.emptyHTML('No tasks today','Add one above to get started'); return; }
         c.innerHTML = `<div class="tasks-list">${tasks.map(t=>this.taskCardHTML(t)).join('')}</div>`;
@@ -975,21 +1058,21 @@ class TaskManager {
         for(let i=0;i<7;i++) {
             const d = new Date(s); d.setDate(d.getDate()+i);
             const isToday = this.fmtDate(d)===today;
-            const tasks = this.tasksForDate(d);
-            html += `<div class="week-day-col${isToday?' is-today':''}">
+            const tasks = this.tasksForDate(d).filter(t=>!t.completed);
+            html += `<div class="week-day-col${isToday?' is-today':''}${(!tasks.length&&!isToday)?' empty-day':''}">
                 <div class="week-day-header">
                     <div class="week-day-name">${days[d.getDay()]}</div>
                     <div class="week-day-num">${d.getDate()}</div>
                 </div>
                 ${tasks.length ? tasks.map(t=>`
-                    <div class="week-task-item ${t.type}${t.completed?' done':''}">
+                    <div class="week-task-item ${t.type}">
                         ${t.title}
                         <div class="week-task-actions">
-                            <button class="week-task-btn complete-btn" data-id="${t.id}">${t.completed?'↩':'✓'}</button>
+                            <button class="week-task-btn complete-btn" data-id="${t.id}">✓</button>
                             <button class="week-task-btn edit-btn" data-id="${t.id}">✎</button>
                             <button class="week-task-btn delete-btn" data-id="${t.id}">✕</button>
                         </div>
-                    </div>`).join('') : '<div style="text-align:center;color:#c5b8a0;font-size:0.78rem;margin-top:16px;">—</div>'}
+                    </div>`).join('') : '<div style="text-align:center;color:#c5b8a0;font-size:0.78rem;margin-top:8px;">—</div>'}
             </div>`;
         }
         html += '</div>';
@@ -1013,7 +1096,7 @@ class TaskManager {
         let html = '<div class="month-grid">';
         days.forEach(d => html += `<div class="month-dow-header">${d}</div>`);
         cells.forEach(cell => {
-            const tasks = this.tasksForDate(cell.date);
+            const tasks = this.tasksForDate(cell.date).filter(t=>!t.completed);
             const isToday = this.fmtDate(cell.date)===today;
             html += `<div class="month-day${!cell.cur?' other-month':''}${isToday?' is-today':''}">
                 <div class="month-day-num">${cell.date.getDate()}</div>
@@ -1030,12 +1113,12 @@ class TaskManager {
         const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
         let html = '<div class="year-grid">';
         months.forEach((name,i) => {
-            const tasks = this.tasks.filter(t => { const d=new Date(t.date); return d.getFullYear()===y && d.getMonth()===i; });
-            const done = tasks.filter(t=>t.completed).length;
+            const tasks = this.tasks.filter(t => { const d=new Date(t.date); return d.getFullYear()===y && d.getMonth()===i && !t.completed; });
+            const archived = this.tasks.filter(t => { const d=new Date(t.date); return d.getFullYear()===y && d.getMonth()===i && t.completed; }).length;
             html += `<div class="year-month-card${tasks.length?' has-tasks':''}">
                 <div class="year-month-name">${name}</div>
                 <div class="year-month-count">${tasks.length}</div>
-                <div class="year-month-label">${tasks.length===1?'task':'tasks'}${tasks.length?` · ${done} done`:''}</div>
+                <div class="year-month-label">${tasks.length===1?'task':'tasks'}${archived?` · ${archived} archived`:''}</div>
             </div>`;
         });
         html += '</div>';
@@ -1045,7 +1128,6 @@ class TaskManager {
     renderAll() {
         const c = document.getElementById('tasksContainer');
 
-        // Toolbar HTML
         const toolbarHTML = `
         <div class="all-tasks-toolbar">
             <input class="search-input" type="text" id="allSearch" placeholder="Search tasks…" value="${this.allSearch}">
@@ -1056,11 +1138,6 @@ class TaskManager {
                 <option value="monthly"${this.allFilterType==='monthly'?' selected':''}>Monthly</option>
                 <option value="yearly"${this.allFilterType==='yearly'?' selected':''}>Long-term</option>
             </select>
-            <select class="filter-select" id="allFilterStatus">
-                <option value="all"${this.allFilterStatus==='all'?' selected':''}>All status</option>
-                <option value="pending"${this.allFilterStatus==='pending'?' selected':''}>Pending</option>
-                <option value="done"${this.allFilterStatus==='done'?' selected':''}>Completed</option>
-            </select>
             <select class="filter-select" id="allSort">
                 <option value="date-desc"${this.allSort==='date-desc'?' selected':''}>Newest first</option>
                 <option value="date-asc"${this.allSort==='date-asc'?' selected':''}>Oldest first</option>
@@ -1069,12 +1146,11 @@ class TaskManager {
             </select>
         </div>`;
 
-        // Filter + sort
         let filtered = this.tasks.filter(t => {
+            if(t.completed) return false;
             const matchSearch = !this.allSearch || t.title.toLowerCase().includes(this.allSearch.toLowerCase()) || (t.notes||'').toLowerCase().includes(this.allSearch.toLowerCase());
             const matchType = this.allFilterType==='all' || t.type===this.allFilterType;
-            const matchStatus = this.allFilterStatus==='all' || (this.allFilterStatus==='pending'&&!t.completed) || (this.allFilterStatus==='done'&&t.completed);
-            return matchSearch && matchType && matchStatus;
+            return matchSearch && matchType;
         });
 
         filtered.sort((a,b) => {
@@ -1085,14 +1161,9 @@ class TaskManager {
             return 0;
         });
 
-        const total = this.tasks.length;
-        const done = this.tasks.filter(t=>t.completed).length;
-        const pending = total - done;
-
+        const total = this.tasks.filter(t=>!t.completed).length;
         const statsHTML = `<div class="all-tasks-stats">
-            <div class="stat-pill"><span>${total}</span> Total</div>
-            <div class="stat-pill"><span>${pending}</span> Pending</div>
-            <div class="stat-pill"><span>${done}</span> Completed</div>
+            <div class="stat-pill"><span>${total}</span> Active</div>
             <div class="stat-pill"><span>${filtered.length}</span> Shown</div>
         </div>`;
 
@@ -1102,12 +1173,9 @@ class TaskManager {
             return;
         }
 
-        const tasksHTML = filtered.map(t => this.taskCardFullHTML(t)).join('');
-        c.innerHTML = toolbarHTML + statsHTML + `<div class="tasks-list">${tasksHTML}</div>`;
+        c.innerHTML = toolbarHTML + statsHTML + `<div class="tasks-list">${filtered.map(t=>this.taskCardFullHTML(t)).join('')}</div>`;
         this.bindAllToolbar();
         this.attachCardEvents();
-
-        // Expand/collapse
         document.querySelectorAll('.task-card-full-header').forEach(header => {
             header.addEventListener('click', e => {
                 if(e.target.closest('.task-checkbox,.btn-icon,.btn-sm')) return;
@@ -1119,11 +1187,9 @@ class TaskManager {
     bindAllToolbar() {
         const s = document.getElementById('allSearch');
         const ft = document.getElementById('allFilterType');
-        const fs = document.getElementById('allFilterStatus');
         const so = document.getElementById('allSort');
         if(s) { s.addEventListener('input', e => { this.allSearch=e.target.value; this.renderAll(); }); s.focus(); s.setSelectionRange(s.value.length,s.value.length); }
         if(ft) ft.addEventListener('change', e => { this.allFilterType=e.target.value; this.renderAll(); });
-        if(fs) fs.addEventListener('change', e => { this.allFilterStatus=e.target.value; this.renderAll(); });
         if(so) so.addEventListener('change', e => { this.allSort=e.target.value; this.renderAll(); });
     }
 
@@ -1168,7 +1234,7 @@ class TaskManager {
             <div class="task-card-full-body">
                 ${t.notes?`<div class="task-notes-block">${t.notes}</div>`:'<div style="color:var(--tan);font-size:0.83rem;margin-bottom:10px;font-style:italic;">No notes.</div>'}
                 <div class="task-full-actions">
-                    <button class="btn-sm${t.completed?' ':' primary'} complete-btn" data-id="${t.id}">${t.completed?'Mark Pending':'Mark Complete'}</button>
+                    <button class="btn-sm primary complete-btn" data-id="${t.id}">Mark Complete</button>
                     <button class="btn-sm amber edit-btn" data-id="${t.id}">Edit</button>
                     <button class="btn-sm danger delete-btn" data-id="${t.id}">Delete</button>
                 </div>
@@ -1176,7 +1242,89 @@ class TaskManager {
         </div>`;
     }
 
-    attachCardEvents() {
+    renderArchive() {
+        const c = document.getElementById('tasksContainer');
+        const archived = this.tasks.filter(t=>t.completed);
+
+        if(!archived.length) {
+            c.innerHTML = this.emptyHTML('Archive is empty','Completed tasks will appear here');
+            return;
+        }
+
+        // Group by month completed
+        const groups = {};
+        archived.forEach(t => {
+            const key = t.completedAt
+                ? new Date(t.completedAt).toLocaleDateString('en-US',{year:'numeric',month:'long'})
+                : new Date(t.date).toLocaleDateString('en-US',{year:'numeric',month:'long'});
+            if(!groups[key]) groups[key] = [];
+            groups[key].push(t);
+        });
+
+        const statsHTML = `<div class="all-tasks-stats" style="margin-bottom:16px;">
+            <div class="stat-pill"><span>${archived.length}</span> Archived</div>
+            <div style="margin-left:auto;">
+                <button class="btn-sm danger" id="clearArchiveBtn" style="border-color:#fca5a5;color:#dc2626;">Clear All</button>
+            </div>
+        </div>`;
+
+        let html = statsHTML;
+        Object.entries(groups).forEach(([month, tasks]) => {
+            html += `<div class="group-header">${month} <span>${tasks.length} task${tasks.length!==1?'s':''}</span></div>`;
+            html += `<div class="tasks-list" style="margin-bottom:20px;">${tasks.map(t=>this.archiveCardHTML(t)).join('')}</div>`;
+        });
+
+        c.innerHTML = html;
+        this.attachCardEvents();
+
+        // Expand/collapse
+        document.querySelectorAll('.task-card-full-header').forEach(header => {
+            header.addEventListener('click', e => {
+                if(e.target.closest('.task-checkbox,.btn-icon,.btn-sm')) return;
+                header.closest('.task-card-full').classList.toggle('expanded');
+            });
+        });
+
+        const clearBtn = document.getElementById('clearArchiveBtn');
+        if(clearBtn) clearBtn.addEventListener('click', () => {
+            if(confirm('Permanently delete all archived tasks?')) {
+                this.tasks = this.tasks.filter(t=>!t.completed);
+                this.save(); this.render();
+            }
+        });
+    }
+
+    archiveCardHTML(t) {
+        const completedDate = t.completedAt
+            ? new Date(t.completedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+            : '—';
+        return `<div class="task-card-full completed" data-id="${t.id}" style="border-color:#d1fae5;background:#fafffe;">
+            <div class="task-card-full-header">
+                <div class="task-checkbox checked complete-btn" data-id="${t.id}" title="Restore task" style="cursor:pointer;">✓</div>
+                <div style="flex:1;">
+                    <div class="task-title-text" style="text-decoration:line-through;color:#a09080;">${t.title}</div>
+                    <div class="task-meta" style="padding-left:0;margin-top:4px;">
+                        <span class="badge badge-${t.type}">${t.type}</span>
+                        <span class="task-date-meta">Completed ${completedDate}</span>
+                    </div>
+                </div>
+                <div class="task-card-actions">
+                    <button class="btn-icon complete-btn" data-id="${t.id}" title="Restore" style="color:#16a34a;border-color:#86efac;">↩</button>
+                    <button class="btn-icon delete delete-btn" data-id="${t.id}" title="Delete permanently">✕</button>
+                </div>
+                <div class="expand-arrow">&#9658;</div>
+            </div>
+            <div class="task-card-full-body">
+                ${t.notes?`<div class="task-notes-block">${t.notes}</div>`:'<div style="color:var(--tan);font-size:0.83rem;margin-bottom:10px;font-style:italic;">No notes.</div>'}
+                <div class="task-full-actions">
+                    <button class="btn-sm primary complete-btn" data-id="${t.id}">Restore Task</button>
+                    <button class="btn-sm danger delete-btn" data-id="${t.id}">Delete Permanently</button>
+                </div>
+            </div>
+        </div>`;
+    }
+
+
         document.querySelectorAll('.complete-btn').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); this.toggle(parseInt(e.currentTarget.dataset.id)); }));
         document.querySelectorAll('.edit-btn').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); this.openModal(parseInt(e.currentTarget.dataset.id)); }));
         document.querySelectorAll('.delete-btn').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); this.delete(parseInt(e.currentTarget.dataset.id)); }));
